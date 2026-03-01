@@ -1,0 +1,3 @@
+filter ($user: User, $session: Session) on Contact [
+  where userId == $user.id
+]
