@@ -17,6 +17,8 @@ import BurstDetailPage from "../routes/bursts/$id";
 import BurstEditPage from "../routes/bursts/$id.edit";
 import SettingsPage from "../routes/settings";
 import ContactsPage from "../routes/contacts";
+import ChurnTrackerPage from "../routes/churn-tracker";
+import ChurnTemplatesPage from "../routes/churn-templates";
 import PublicLayout from "./layouts/public";
 import AuthLayout from "./layouts/auth";
 import AppLayout from "./layouts/app";
@@ -51,6 +53,8 @@ const App = () => {
               <Route path="bursts/:id/edit" element={<BurstEditPage />} />
               <Route path="settings" element={<SettingsPage />} />
               <Route path="contacts" element={<ContactsPage />} />
+              <Route path="churn-tracker" element={<ChurnTrackerPage />} />
+              <Route path="churn-templates" element={<ChurnTemplatesPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

@@ -21,7 +21,7 @@ export default function () {
   const monthLabel = targetMonth.toLocaleString('default', { month: 'long', year: 'numeric' });
 
   // Fetch churn events for this month
-  const [{ data: churnEvents, fetching }] = useFindMany(api.churnEvent, {
+  const [{ data: churnEvents, fetching, error }] = useFindMany(api.churnEvent, {
     filter: {
       churnDate: { 
         gte: monthStart.toISOString(),
@@ -30,6 +30,10 @@ export default function () {
     },
     sort: { churnDate: "Descending" }
   });
+
+  // Show loading or error states
+  if (fetching) return <div className="p-6">Loading churn data...</div>;
+  if (error) return <div className="p-6 text-red-600">Error loading data: {error.message}</div>;
 
   const getReasonBadge = (reason) => {
     const styles = {
@@ -91,7 +95,9 @@ export default function () {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Churn Tracker</h1>
         <div className="flex items-center gap-4">
-          <Button variant="outline" onClick={() => setMonthOffset(m => m + 1)}>
+          <Button variant="outline" onClick={() => setMonthOffset(m => m + 1)}
+            aria-label="Previous month"
+          >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="text-lg font-medium min-w-[150px] text-center">{monthLabel}</span>
@@ -99,6 +105,7 @@ export default function () {
             variant="outline" 
             onClick={() => setMonthOffset(m => Math.max(0, m - 1))}
             disabled={monthOffset === 0}
+            aria-label="Next month"
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
@@ -127,32 +134,36 @@ export default function () {
       {/* Churn Events Table */}
       <Card className="p-6">
         <h2 className="text-lg font-semibold mb-4">Churned Accounts</h2>
-        <AutoTable
-          model={api.churnEvent}
-          filter={{
-            churnDate: { 
-              gte: monthStart.toISOString(),
-              lte: monthEnd.toISOString()
-            }
-          }}
-          columns={[
-            { header: "Account", field: "accountName" },
-            { header: "Email", field: "accountEmail" },
-            { header: "Company", field: "company" },
-            {
-              header: "Reason",
-              render: ({ record }) => getReasonBadge(record.churnReason)
-            },
-            {
-              header: "Date",
-              render: ({ record }) => new Date(record.churnDate).toLocaleDateString()
-            },
-            {
-              header: "Email Status",
-              render: ({ record }) => getStatusBadge(record.emailStatus)
-            }
-          ]}
-        />
+        {!churnEvents || churnEvents.length === 0 ? (
+          <p className="text-muted-foreground">No churn events for {monthLabel}. Data will appear here when Slack webhooks arrive.</p>
+        ) : (
+          <AutoTable
+            model={api.churnEvent}
+            filter={{
+              churnDate: { 
+                gte: monthStart.toISOString(),
+                lte: monthEnd.toISOString()
+              }
+            }}
+            columns={[
+              { header: "Account", field: "accountName" },
+              { header: "Email", field: "accountEmail" },
+              { header: "Company", field: "company" },
+              {
+                header: "Reason",
+                render: ({ record }) => getReasonBadge(record.churnReason)
+              },
+              {
+                header: "Date",
+                render: ({ record }) => record.churnDate ? new Date(record.churnDate).toLocaleDateString() : "-"
+              },
+              {
+                header: "Email Status",
+                render: ({ record }) => getStatusBadge(record.emailStatus)
+              }
+            ]}
+          />
+        )}
       </Card>
     </div>
   );
