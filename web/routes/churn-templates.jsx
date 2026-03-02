@@ -66,10 +66,9 @@ export default function () {
             Create New Template
           </h2>
           <AutoForm
-            model={api.churnTemplate}
             action={api.churnTemplate.create}
             onSuccess={() => window.location.reload()}
-            exclude={["user"], "isActive"]}
+            exclude={["user", "isActive"]}
             defaultValues={{ isActive: true }}
           />
         </Card>

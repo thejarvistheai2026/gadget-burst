@@ -24,7 +24,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { useSignOut } from "@gadgetinc/react";
 import { NavDrawer } from "../shared/NavDrawer";
-import { Home, User, LogOut, Settings, Users, AlertCircle } from "lucide-react";
+import { Mail, User, LogOut, Settings, Users, AlertCircle } from "lucide-react";
 import { Button } from "../ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
@@ -38,14 +38,14 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
  */
 const navigationItems = [
   {
-    title: "Outbound",
-    path: "/signed-in",
-    icon: Home,
-  },
-  {
     title: "Churn Tracker",
     path: "/churn-tracker",
     icon: AlertCircle,
+  },
+  {
+    title: "Outbound Campaigns",
+    path: "/signed-in",
+    icon: Mail,
   },
   {
     title: "Contacts",

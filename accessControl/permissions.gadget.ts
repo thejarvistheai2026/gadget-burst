@@ -27,6 +27,28 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
+        churnEvent: {
+          read: {
+            filter:
+              "accessControl/filters/churnEvent/signed-in-read.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        churnTemplate: {
+          read: {
+            filter:
+              "accessControl/filters/churnTemplate/signed-in-read.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         contact: {
           read: {
             filter:
@@ -98,26 +120,6 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
-        churnEvent: {
-          read: {
-            filter: "accessControl/filters/churnEvent/signed-in-read.gelly",
-          },
-          actions: {
-            create: true,
-            delete: true,
-            update: true,
-          },
-        },
-        churnTemplate: {
-          read: {
-            filter: "accessControl/filters/churnTemplate/signed-in-read.gelly",
-          },
-          actions: {
-            create: true,
-            delete: true,
-            update: true,
-          },
-        },
       },
       actions: {
         checkForReplies: true,
@@ -138,6 +140,11 @@ export const permissions: GadgetPermissions = {
             verifyEmail: true,
           },
         },
+      },
+      actions: {
+        receiveChurnWebhook: true,
+        slackWebhook: true,
+        testAction: true,
       },
     },
   },

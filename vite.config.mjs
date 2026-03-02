@@ -10,4 +10,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./web"),
     },
   },
+  optimizeDeps: {
+    exclude: ["AutoRichTextInput-V5WIQX6O"],
+  },
 });
